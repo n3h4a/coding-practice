@@ -11,6 +11,8 @@ class Solution {
         return Arrays.equals(arr1 , arr2);
         }
 */
+
+/*
                 if(s.length() != t.length()){
                     return false;
                 } else {
@@ -27,6 +29,25 @@ class Solution {
                     mapT.put(ch2 , currentcount2);
                     }
                     return mapS.equals(mapT);
+
                 }
-    }
+*/
+
+                                             if (s.length() != t.length()) {
+                                                return false;
+                                            }
+
+                                            int[] count = new int[26];
+                                            for (int i = 0; i < s.length(); i++) {
+                                                count[s.charAt(i) - 'a']++;
+                                                count[t.charAt(i) - 'a']--;
+                                            }
+
+                                            for (int val : count) {
+                                                if (val != 0) {
+                                                    return false;
+                                                }
+                                            }
+                                            return true;
+}
 }
