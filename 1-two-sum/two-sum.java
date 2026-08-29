@@ -10,7 +10,10 @@ class Solution {
         return new int [0];                           */
 
 
-                        int [] [] A = new int [nums.length] [2];
+
+
+
+        /*                int [] [] A = new int [nums.length] [2];
                         for(int i = 0 ; i < nums.length ; i++){
                             A[i] [0] = nums[i];
                             A[i] [1] = i;
@@ -31,7 +34,23 @@ class Solution {
                                 j--;
                             }
                         }
-                    return new int [0];
+                    return new int [0];           */
+
+
+
+
+                                        HashMap <Integer , Integer> indices = new HashMap <> ();
+                                        for(int i = 0 ; i < nums.length ; i++){
+                                            indices.put(nums[i] , i);
+                                        }
+                                        for( int i = 0 ; i < nums.length ; i++){
+                                            int diff = target - nums[i];
+                                            if (indices.containsKey(diff) && indices.get(diff) != i ){
+                                                return new int [] {indices.get(diff) , i};
+                                            }
+                                        }
+                                        return new int [0];
+                                    
 
 
     }
