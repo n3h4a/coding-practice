@@ -2,7 +2,7 @@ class Solution {
 
     public String longestCommonPrefix(String[] strs) {
 
-        String prefix = strs[0];
+       /* String prefix = strs[0];
 
         for (int i = 1; i < strs.length; i++) {
 
@@ -20,6 +20,26 @@ class Solution {
             prefix = prefix.substring(0, j);
         }
 
-        return prefix;
+        return prefix;    */
+
+
+                                for ( int i = 0; i < strs[0].length() ; i++) {
+                                    for(String s : strs){
+                                        if(i == s.length() || s.charAt(i) != strs[0].charAt(i) ){
+                                            return s.substring (0 , i);
+                                        }
+                                    }
+                                }
+                                return strs[0];
+
+
+
+
+
+
+
+
+
+
     }
 }
