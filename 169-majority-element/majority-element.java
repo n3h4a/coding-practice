@@ -1,6 +1,6 @@
 class Solution {
     public int majorityElement(int[] nums) {
-        int n = nums.length;
+      /*  int n = nums.length;
         for(int num : nums){
             int count = 0;
             for( int i : nums){
@@ -12,6 +12,21 @@ class Solution {
                 return num;
             }
         }
-        return -1;
+        return -1;    */
+
+                    HashMap<Integer , Integer> count = new HashMap <>();
+                    int res = 0 ; int maxCount = 0;
+                    for( int num : nums){
+                        count.put(num, count.getOrDefault(num , 0) + 1);
+                        if(count.get(num) > maxCount){
+                            res = num;
+                            maxCount = count.get(num);
+                        }
+                    }
+                    return res;
+
+
+
+
     }
 }
