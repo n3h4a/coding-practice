@@ -14,7 +14,7 @@ class Solution {
         }
         return -1;    */
 
-                    HashMap<Integer , Integer> count = new HashMap <>();
+                 /*   HashMap<Integer , Integer> count = new HashMap <>();
                     int res = 0 ; int maxCount = 0;
                     for( int num : nums){
                         count.put(num, count.getOrDefault(num , 0) + 1);
@@ -23,7 +23,12 @@ class Solution {
                             maxCount = count.get(num);
                         }
                     }
-                    return res;
+                    return res;       */
+
+
+                                Arrays.sort(nums);
+                                return nums[nums.length / 2];
+
 
 
 
