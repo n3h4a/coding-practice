@@ -11,7 +11,7 @@ class Solution {
         return totalCommas;   */
 
 
-                    long result = 0;
+                /*    long result = 0;
                     long lower = 1000;
                     long commas =  1;
                     while( lower <= n){
@@ -24,7 +24,18 @@ class Solution {
                         lower *= 1000;
                         commas++;
                     }
-                    return result;
+                    return result;   */
+
+
+
+                                long result = 0;
+                                long start = 1000;
+
+                                while( start <= n){
+                                    result += n - start + 1;
+                                    start *= 1000;
+                                }
+                                return result;
 
 
 
