@@ -1,7 +1,7 @@
 class Solution {
     public int maximumPopulation(int[][] logs) {
 
-        /* difference array technique
+        // difference array technique
 
         int[] diff = new int[2051];
         for( int i = 0 ; i < logs.length ; i++){
@@ -24,7 +24,7 @@ class Solution {
         }
         return minyear;
 
-        */
+        /*
 
         // line sweep algo 
 
@@ -53,5 +53,7 @@ class Solution {
         }        
     }
     return minyear;
+
+    */
 }
 }
