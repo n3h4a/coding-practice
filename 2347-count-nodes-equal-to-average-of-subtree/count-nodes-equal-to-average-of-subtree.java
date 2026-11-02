@@ -1,3 +1,14 @@
+/*
+ * Count Nodes Equal to Average of Subtree
+ * Pattern : Tree DFS (Post-order)
+ * Approach: A post-order traversal returns (sum, nodeCount) for each
+ *           subtree, so every node gets its subtree totals from its
+ *           children in O(1) and compares the rounded-down average with
+ *           its own value.
+ * Time    : O(n)
+ * Space   : O(h) recursion stack, h = tree height
+ */
+
 /**
  * Definition for a binary tree node.
  * public class TreeNode {
@@ -14,30 +25,26 @@
  * }
  */
 class Solution {
-    int count = 0;
+    private int matches = 0;
+
     public int averageOfSubtree(TreeNode root) {
         postOrder(root);
-        return count;
+        return matches;
     }
-    public Pair postOrder(TreeNode root) {
-        if(root == null) {
-            return new Pair(0,0);
+
+    // Returns {sum, nodeCount} of the subtree rooted at node.
+    private int[] postOrder(TreeNode node) {
+        if (node == null) {
+            return new int[] {0, 0};
         }
-        Pair left = postOrder(root.left);
-        Pair right = postOrder(root.right);
-        int sum = left.first+right.first+root.val;
-        int nodeCount = left.second+right.second+1;
-        if((sum/nodeCount) == root.val) {
-            count++;
+        int[] left = postOrder(node.left);
+        int[] right = postOrder(node.right);
+
+        int sum = left[0] + right[0] + node.val;
+        int count = left[1] + right[1] + 1;
+        if (sum / count == node.val) {
+            matches++;
         }
-        return new Pair(sum,nodeCount);
-    }
-}
-class Pair {
-    int first;
-    int second;
-    Pair(int first,int second) {
-        this.first = first;
-        this.second = second;
+        return new int[] {sum, count};
     }
 }

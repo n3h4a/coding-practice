@@ -1,41 +1,40 @@
+/*
+ * Valid Parentheses
+ * Pattern : Stack
+ * Approach: Push every opening bracket. On a closing bracket, the top of the
+ *           stack must be its matching opener. The string is valid only if
+ *           the stack is empty at the end.
+ * Time    : O(n)
+ * Space   : O(n)
+ */
 class Solution {
-    public boolean isValid(String str) {
-    Stack<Character> st = new Stack <>();
-    for(int i = 0; i < str.length(); i++){
-        char ch = str.charAt(i);
-        if(ch == '(' || ch == '{' || ch == '['){
-            st.push(ch);
-        } else if(ch == ')'){
-            boolean val = handleClosing(st, '(');
-            if(val == false){
-                return false;
+    public boolean isValid(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+
+        for (char ch : s.toCharArray()) {
+            switch (ch) {
+                case '(', '{', '[' -> stack.push(ch);
+                case ')' -> {
+                    if (!matches(stack, '(')) return false;
+                }
+                case '}' -> {
+                    if (!matches(stack, '{')) return false;
+                }
+                case ']' -> {
+                    if (!matches(stack, '[')) return false;
+                }
+                default -> { }
             }
-        } else if(ch == '}'){
-            boolean val = handleClosing(st, '{');
-            if(val == false){
-                return false;
-            }
-        } else if(ch == ']'){
-            boolean val = handleClosing(st, '[');
-            if(val == false){
-                return false ;
-            }
-        } 
-    }
-    if(st.size() == 0){
-        return true;
-    } else{
-        return false;
-    }
-    }
-    public static boolean handleClosing(Stack<Character> st,  char corresoc){
-        if(st.size() == 0){
-            return false;
-        }else if(st.peek() != corresoc){
-            return false;
-        } else{
-            st.pop();
-            return true;
         }
+
+        return stack.isEmpty();
+    }
+
+    private boolean matches(Deque<Character> stack, char expectedOpen) {
+        if (stack.isEmpty() || stack.peek() != expectedOpen) {
+            return false;
+        }
+        stack.pop();
+        return true;
     }
 }

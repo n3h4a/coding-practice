@@ -1,15 +1,20 @@
+/*
+ * Richest Customer Wealth
+ * Pattern : Matrix
+ * Approach: Sum each customer's row and keep the largest total.
+ * Time    : O(m * n)
+ * Space   : O(1)
+ */
 class Solution {
     public int maximumWealth(int[][] accounts) {
-        int ans = Integer.MIN_VALUE;
-        for(int person = 0 ; person < accounts.length ; person ++){
-            int sum = 0;
-            for(int account = 0; account < accounts[person].length ; account++){
-                sum += accounts[person][account];
+        int richest = 0;
+        for (int[] customer : accounts) {
+            int wealth = 0;
+            for (int money : customer) {
+                wealth += money;
             }
-            if( sum > ans){
-                ans = sum;
-            }
+            richest = Math.max(richest, wealth);
         }
-        return ans;
+        return richest;
     }
 }

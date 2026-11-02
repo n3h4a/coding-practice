@@ -1,24 +1,30 @@
+/*
+ * Find All Duplicates in an Array
+ * Pattern : Cyclic Sort
+ * Approach: Values are in [1, n], so cyclic sort puts each value at index
+ *           value - 1. Afterwards, any index holding the wrong value holds
+ *           a duplicate.
+ * Time    : O(n) - every swap places at least one value correctly
+ * Space   : O(1) extra
+ */
 class Solution {
     public List<Integer> findDuplicates(int[] nums) {
-        sort(nums);
+        cyclicSort(nums);
 
-        List<Integer> ans = new ArrayList<>();
-
+        List<Integer> duplicates = new ArrayList<>();
         for (int i = 0; i < nums.length; i++) {
             if (nums[i] != i + 1) {
-                ans.add(nums[i]);
+                duplicates.add(nums[i]);
             }
         }
-
-        return ans;
+        return duplicates;
     }
 
-    public void sort(int[] nums) {
+    // Cyclic sort: place every value v at index v - 1.
+    private void cyclicSort(int[] nums) {
         int i = 0;
-
         while (i < nums.length) {
             int correct = nums[i] - 1;
-
             if (nums[i] != nums[correct]) {
                 swap(nums, i, correct);
             } else {
@@ -27,9 +33,9 @@ class Solution {
         }
     }
 
-    public void swap(int[] nums, int first, int second) {
-        int temp = nums[first];
-        nums[first] = nums[second];
-        nums[second] = temp;
+    private void swap(int[] nums, int a, int b) {
+        int temp = nums[a];
+        nums[a] = nums[b];
+        nums[b] = temp;
     }
 }

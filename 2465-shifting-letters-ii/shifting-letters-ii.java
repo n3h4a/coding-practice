@@ -1,42 +1,30 @@
+/*
+ * Shifting Letters II
+ * Pattern : Difference Array / Prefix Sum
+ * Approach: Each shift adds +1 (forward) or -1 (backward) to a range. Record
+ *           it in a difference array, take a prefix sum to get each
+ *           character's net shift, and apply it modulo 26.
+ * Time    : O(n + shifts)
+ * Space   : O(n)
+ */
 class Solution {
     public String shiftingLetters(String s, int[][] shifts) {
-
         int n = s.length();
-        int[] diff = new int[n];
+        int[] diff = new int[n + 1];
 
-        for(int[] shift : shifts){
-            int L = shift[0];
-            int R = shift[1];
-            int dir = shift[2];
-
-            int x = 1;
-            if(dir == 0){
-                x = -1;
-            }
-
-            diff[L] += x;
-
-            if(R + 1 < n){
-                diff[R + 1] -= x;
-            }
-        }
-
-        for(int i = 1; i < n; i++){
-            diff[i] += diff[i - 1];
+        for (int[] shift : shifts) {
+            int delta = shift[2] == 1 ? 1 : -1;
+            diff[shift[0]] += delta;
+            diff[shift[1] + 1] -= delta;
         }
 
         char[] chars = s.toCharArray();
-
-        for(int i = 0; i < n; i++){
-            int currShift = diff[i] % 26;
-
-            if(currShift < 0){
-                currShift += 26;
-            }
-
-            chars[i] = (char)(((chars[i] - 'a' + currShift) % 26) + 'a');
+        int netShift = 0;
+        for (int i = 0; i < n; i++) {
+            netShift += diff[i];
+            int offset = ((chars[i] - 'a' + netShift) % 26 + 26) % 26; // handle negatives
+            chars[i] = (char) ('a' + offset);
         }
-
         return new String(chars);
     }
 }

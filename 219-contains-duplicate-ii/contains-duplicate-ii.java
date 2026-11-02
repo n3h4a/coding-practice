@@ -1,12 +1,20 @@
-public class Solution {
+/*
+ * Contains Duplicate II
+ * Pattern : Hashing
+ * Approach: Remember the last index of every value. A repeat is a match if
+ *           it is at most k positions after the previous occurrence.
+ * Time    : O(n)
+ * Space   : O(n)
+ */
+class Solution {
     public boolean containsNearbyDuplicate(int[] nums, int k) {
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> lastIndex = new HashMap<>();
 
         for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(nums[i]) && i - map.get(nums[i]) <= k) {
+            Integer previous = lastIndex.put(nums[i], i);
+            if (previous != null && i - previous <= k) {
                 return true;
             }
-            map.put(nums[i], i);
         }
 
         return false;

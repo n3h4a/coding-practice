@@ -1,28 +1,33 @@
+/*
+ * String Compression
+ * Pattern : Two Pointers
+ * Approach: `read` scans each run of equal characters while `write` writes
+ *           the character followed by the run length (if > 1) in place.
+ *           The write pointer never passes the read pointer.
+ * Time    : O(n)
+ * Space   : O(1)
+ */
 class Solution {
     public int compress(char[] chars) {
-        int n = chars.length;
-        int index = 0;
-        int i = 0;
+        int write = 0;
+        int read = 0;
 
-        while (i < n) {
-            char currChar = chars[i];
-            int count = 0;
-            while (i < n && chars[i] == currChar) {
-                count++;
-                i++;
+        while (read < chars.length) {
+            char current = chars[read];
+            int runLength = 0;
+            while (read < chars.length && chars[read] == current) {
+                runLength++;
+                read++;
             }
-            chars[index] = currChar;
-            index++;
 
-            if (count > 1) {
-                String countStr = Integer.toString(count);
-                for (char ch : countStr.toCharArray()) {
-                    chars[index] = ch;
-                    index++;
+            chars[write++] = current;
+            if (runLength > 1) {
+                for (char digit : Integer.toString(runLength).toCharArray()) {
+                    chars[write++] = digit;
                 }
             }
         }
 
-        return index;
+        return write;
     }
 }

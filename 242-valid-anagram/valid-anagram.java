@@ -1,53 +1,33 @@
+/*
+ * Valid Anagram
+ * Pattern : Hashing / Counting
+ * Approach: One array of 26 counters: increment for letters of s, decrement
+ *           for letters of t. They are anagrams only if every counter is 0.
+ * Time    : O(n)
+ * Space   : O(1) - fixed 26-letter alphabet
+ *
+ * Earlier approaches I tried:
+ *   1. Sort both strings and compare     - O(n log n) time
+ *   2. Two HashMaps of character counts  - O(n) time, more overhead
+ *   3. Single int[26] counter (below)    - O(n) time, O(1) space
+ */
 class Solution {
     public boolean isAnagram(String s, String t) {
-/*        if(s.length() != t.length()){
-        return false;
+        if (s.length() != t.length()) {
+            return false;
         }
-        else{
-        char [] arr1 = s.toCharArray();
-        Arrays.sort(arr1);
-        char [] arr2 = t.toCharArray();
-        Arrays.sort(arr2);
-        return Arrays.equals(arr1 , arr2);
+
+        int[] count = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            count[s.charAt(i) - 'a']++;
+            count[t.charAt(i) - 'a']--;
         }
-*/
 
-/*
-                if(s.length() != t.length()){
-                    return false;
-                } else {
-                    HashMap<Character , Integer> mapS = new HashMap <> ();
-                    HashMap<Character , Integer> mapT = new HashMap <> ();
-                    for( int i = 0 ; i < s.length(); i++){
-                    char ch1 = s.charAt(i);
-                    int currentcount1 = mapS.getOrDefault(ch1 , 0);
-                    currentcount1++;
-                    mapS.put(ch1 , currentcount1);
-                    char ch2 = t.charAt(i);
-                    int currentcount2 = mapT.getOrDefault(ch2 , 0);
-                    currentcount2++;
-                    mapT.put(ch2 , currentcount2);
-                    }
-                    return mapS.equals(mapT);
-
-                }
-*/
-
-                                             if (s.length() != t.length()) {
-                                                return false;
-                                            }
-
-                                            int[] count = new int[26];
-                                            for (int i = 0; i < s.length(); i++) {
-                                                count[s.charAt(i) - 'a']++;
-                                                count[t.charAt(i) - 'a']--;
-                                            }
-
-                                            for (int val : count) {
-                                                if (val != 0) {
-                                                    return false;
-                                                }
-                                            }
-                                            return true;
-}
+        for (int c : count) {
+            if (c != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

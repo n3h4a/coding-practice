@@ -1,44 +1,33 @@
-import java.util.*;
-
+/*
+ * Describe the Painting
+ * Pattern : Difference Array / Line Sweep
+ * Approach: Each segment adds its colour at `start` and removes it at `end`.
+ *           Sweeping the sorted positions gives the mixed colour sum on
+ *           every interval between consecutive positions; output the
+ *           intervals that are painted (sum != 0).
+ * Time    : O(n log n)
+ * Space   : O(n)
+ */
 class Solution {
     public List<List<Long>> splitPainting(int[][] segments) {
-
-        TreeMap<Integer, Long> events = new TreeMap<>();
-
-        // Difference map
+        TreeMap<Integer, Long> changes = new TreeMap<>();
         for (int[] segment : segments) {
-            int start = segment[0];
-            int end = segment[1];
-            int color = segment[2];
-
-            events.put(start, events.getOrDefault(start, 0L) + color);
-            events.put(end, events.getOrDefault(end, 0L) - color);
+            changes.merge(segment[0], (long) segment[2], Long::sum);
+            changes.merge(segment[1], (long) -segment[2], Long::sum);
         }
 
         List<List<Long>> result = new ArrayList<>();
+        Integer previous = null;
+        long colourSum = 0;
 
-        Integer prev = null;
-        long currColor = 0;
-
-        for (Map.Entry<Integer, Long> event : events.entrySet()) {
-
-            int position = event.getKey();
-            long change = event.getValue();
-
-            // Interval from prev to current position
-            if (prev != null && prev != position && currColor != 0) {
-                result.add(Arrays.asList(
-                        (long) prev,
-                        (long) position,
-                        currColor
-                ));
+        for (Map.Entry<Integer, Long> change : changes.entrySet()) {
+            int position = change.getKey();
+            if (previous != null && colourSum != 0) {
+                result.add(List.of((long) previous, (long) position, colourSum));
             }
-
-            // Apply current event
-            currColor += change;
-            prev = position;
+            colourSum += change.getValue();
+            previous = position;
         }
-
         return result;
     }
 }

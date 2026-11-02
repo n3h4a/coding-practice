@@ -1,49 +1,30 @@
+/*
+ * Majority Element
+ * Pattern : Boyer-Moore Voting
+ * Approach: Keep a candidate and a counter. Matching elements vote for the
+ *           candidate, others vote against it; when the counter hits 0 a
+ *           new candidate is picked. The majority element always survives.
+ * Time    : O(n)
+ * Space   : O(1)
+ *
+ * Earlier approaches I tried, from slowest to fastest:
+ *   1. Count every element with a nested loop          - O(n^2) time
+ *   2. HashMap of counts                                - O(n) time, O(n) space
+ *   3. Sort and return nums[n / 2]                      - O(n log n) time
+ *   4. Boyer-Moore voting (below)                       - O(n) time, O(1) space
+ */
 class Solution {
     public int majorityElement(int[] nums) {
-      /*  int n = nums.length;
-        for(int num : nums){
-            int count = 0;
-            for( int i : nums){
-                if(i == num){
-                    count++;
-                }
+        int candidate = 0;
+        int count = 0;
+
+        for (int num : nums) {
+            if (count == 0) {
+                candidate = num;
             }
-            if ( count > n /2){
-                return num;
-            }
+            count += (num == candidate) ? 1 : -1;
         }
-        return -1;    */
 
-                 /*   HashMap<Integer , Integer> count = new HashMap <>();
-                    int res = 0 ; int maxCount = 0;
-                    for( int num : nums){
-                        count.put(num, count.getOrDefault(num , 0) + 1);
-                        if(count.get(num) > maxCount){
-                            res = num;
-                            maxCount = count.get(num);
-                        }
-                    }
-                    return res;       */
-
-
-                            /*    Arrays.sort(nums);
-                                return nums[nums.length / 2];       */
-
-
-
-                                            int res = 0 , count = 0;
-                                            for( int num : nums) {
-                                                if (count == 0) {
-                                                    res = num;
-                                                }
-                                                count += (num == res) ? 1 : -1;
-
-                                            }
-                                            return res;
-
-
-
-
-
+        return candidate;
     }
 }

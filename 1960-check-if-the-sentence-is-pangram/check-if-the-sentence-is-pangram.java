@@ -1,9 +1,17 @@
+/*
+ * Check if the Sentence Is Pangram
+ * Pattern : Hashing
+ * Approach: Collect the distinct letters in a set; the sentence is a
+ *           pangram when all 26 letters appear.
+ * Time    : O(n)
+ * Space   : O(1) - at most 26 entries
+ */
 class Solution {
     public boolean checkIfPangram(String sentence) {
-        Set set = new HashSet<>();
-        for(int i = 0 ; i < sentence.length() ; i++){
-            set.add(sentence.charAt(i));
+        Set<Character> letters = new HashSet<>();
+        for (char c : sentence.toCharArray()) {
+            letters.add(c);
         }
-        return set.size() == 26;
+        return letters.size() == 26;
     }
 }

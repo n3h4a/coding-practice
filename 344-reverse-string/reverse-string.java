@@ -1,12 +1,19 @@
+/*
+ * Reverse String
+ * Pattern : Two Pointers
+ * Approach: Swap the characters at both ends and move the pointers inward.
+ * Time    : O(n)
+ * Space   : O(1)
+ */
 class Solution {
     public void reverseString(char[] s) {
-        int start = 0, end = s.length - 1;
-        for(int i = 0 ; i < s.length / 2 ; i++){
+        int start = 0;
+        int end = s.length - 1;
+
+        while (start < end) {
             char temp = s[start];
-            s[start] = s[end];
-            s[end] = temp;
-            start++;
-            end--;
+            s[start++] = s[end];
+            s[end--] = temp;
         }
     }
 }

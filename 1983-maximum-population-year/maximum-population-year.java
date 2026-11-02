@@ -1,59 +1,57 @@
+/*
+ * Maximum Population Year
+ * Pattern : Difference Array / Line Sweep
+ * Approach: Years are limited to [1950, 2050], so use a difference array:
+ *           +1 at the birth year, -1 at the death year (a person is not
+ *           alive in their death year). A prefix sum gives the population
+ *           of each year; return the first year with the maximum.
+ * Time    : O(n + 101)
+ * Space   : O(101)
+ *
+ * Also tried: a general line sweep that sorts (year, +1/-1) events - see
+ * maximumPopulationSweep below. It works for any year range, in O(n log n).
+ */
 class Solution {
     public int maximumPopulation(int[][] logs) {
-
-        // difference array technique
-
         int[] diff = new int[2051];
-        for( int i = 0 ; i < logs.length ; i++){
-            int birth = logs[i][0];
-            int death = logs[i][1];
-
-            diff[birth] += 1;
-            diff[death] -= 1;
+        for (int[] log : logs) {
+            diff[log[0]]++;
+            diff[log[1]]--;
         }
-        int maxpop = 0;
-        int currpop = 0;
-        int minyear = 2050;
 
-        for( int year = 1950 ; year < 2051 ; year++){
-            currpop += diff[year];
-            if(currpop > maxpop){
-            maxpop = currpop;
-            minyear = year;
+        int maxPopulation = 0;
+        int population = 0;
+        int bestYear = 1950;
+        for (int year = 1950; year <= 2050; year++) {
+            population += diff[year];
+            if (population > maxPopulation) {
+                maxPopulation = population;
+                bestYear = year;
             }
         }
-        return minyear;
-
-        /*
-
-        // line sweep algo 
-
-        ArrayList<int[]> events = new ArrayList<> ();
-        for(int[] log : logs){
-        events.add(new int[] {log[0] , +1});
-        events.add(new int[] {log[1] , -1});
-        }
-        events.sort((a, b) -> {
-            if (a[0] != b[0]) {
-                return Integer.compare(a[0], b[0]);
-            }
-
-            return Integer.compare(a[1], b[1]);
-        });
-        int maxpop = 0;
-        int currpop = 0;
-        int minyear = 2050;
-
-        for( int[] e : events){
-            currpop += e[1];
-            if(currpop > maxpop){
-            maxpop = currpop;
-            minyear = e[0];
-
-        }        
+        return bestYear;
     }
-    return minyear;
 
-    */
-}
+    // Alternative: sort births and deaths as events and sweep through them.
+    public int maximumPopulationSweep(int[][] logs) {
+        List<int[]> events = new ArrayList<>();
+        for (int[] log : logs) {
+            events.add(new int[] {log[0], +1});
+            events.add(new int[] {log[1], -1});
+        }
+        // Same year: process deaths (-1) before births (+1).
+        events.sort((a, b) -> a[0] != b[0] ? Integer.compare(a[0], b[0]) : Integer.compare(a[1], b[1]));
+
+        int maxPopulation = 0;
+        int population = 0;
+        int bestYear = 1950;
+        for (int[] event : events) {
+            population += event[1];
+            if (population > maxPopulation) {
+                maxPopulation = population;
+                bestYear = event[0];
+            }
+        }
+        return bestYear;
+    }
 }

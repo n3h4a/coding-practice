@@ -1,65 +1,50 @@
+/*
+ * Zero Array Transformation II
+ * Pattern : Binary Search on Answer + Difference Array
+ * Approach: If the first k queries can zero the array, so can the first
+ *           k + 1. That monotonic property lets us binary search for the
+ *           smallest k; each check applies k queries with a difference
+ *           array and verifies coverage >= nums[i] at every index.
+ * Time    : O((n + q) log q)
+ * Space   : O(n)
+ */
 class Solution {
-
-    public boolean checkWithDifferenceArrayTeq(int[] nums, int[][] queries, int k) {
-        int n = nums.length;
-        int[] diff = new int[n + 1];
-
-        // Apply the first k queries
-        for (int i = 0; i < k; i++) {
-            int l = queries[i][0];
-            int r = queries[i][1];
-            int val = queries[i][2];
-
-            diff[l] += val;
-            if (r + 1 < n) {
-                diff[r + 1] -= val;
-            }
-        }
-
-        // Build prefix sum and check
-        int curr = 0;
-        for (int i = 0; i < n; i++) {
-            curr += diff[i];
-
-            if (nums[i] > curr) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
     public int minZeroArray(int[] nums, int[][] queries) {
-        int q = queries.length;
-
-        // Already a zero array
-        boolean allZero = true;
-        for (int num : nums) {
-            if (num != 0) {
-                allZero = false;
-                break;
-            }
-        }
-
-        if (allZero) {
+        if (canZero(nums, queries, 0)) {
             return 0;
         }
 
         int left = 1;
-        int right = q;
-        int ans = -1;
-
+        int right = queries.length;
+        int answer = -1;
         while (left <= right) {
             int mid = left + (right - left) / 2;
-
-            if (checkWithDifferenceArrayTeq(nums, queries, mid)) {
-                ans = mid;
+            if (canZero(nums, queries, mid)) {
+                answer = mid;
                 right = mid - 1;
             } else {
                 left = mid + 1;
             }
         }
+        return answer;
+    }
 
-        return ans;
+    // Can the first k queries turn nums into all zeros?
+    private boolean canZero(int[] nums, int[][] queries, int k) {
+        int n = nums.length;
+        int[] diff = new int[n + 1];
+        for (int i = 0; i < k; i++) {
+            diff[queries[i][0]] += queries[i][2];
+            diff[queries[i][1] + 1] -= queries[i][2];
+        }
+
+        int coverage = 0;
+        for (int i = 0; i < n; i++) {
+            coverage += diff[i];
+            if (nums[i] > coverage) {
+                return false;
+            }
+        }
+        return true;
     }
 }

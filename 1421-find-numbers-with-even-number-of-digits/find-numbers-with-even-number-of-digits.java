@@ -1,28 +1,27 @@
+/*
+ * Find Numbers with Even Number of Digits
+ * Pattern : Math
+ * Approach: The number of digits of a positive number is
+ *           floor(log10(num)) + 1. Count the numbers where it is even.
+ * Time    : O(n)
+ * Space   : O(1)
+ */
 class Solution {
     public int findNumbers(int[] nums) {
-       int count = 0;
-       for(int num : nums){
-        if(even(num)){
-            count++;
+        int count = 0;
+        for (int num : nums) {
+            if (digitCount(num) % 2 == 0) {
+                count++;
+            }
         }
-       } 
-       return count;
+        return count;
     }
 
-
-     boolean even(int num){
-        int numberOfDigits = digits(num);
-        if(numberOfDigits % 2 == 0){
-            return true;
+    private int digitCount(int num) {
+        num = Math.abs(num);
+        if (num == 0) {
+            return 1;
         }
-        return false;
+        return (int) Math.log10(num) + 1;
     }
-
-     int digits(int num){
-        if(num < 0){
-            num = num * -1;
-        }
-        return (int) (Math.log10(num)) + 1;
-    }
-
 }

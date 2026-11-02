@@ -1,30 +1,41 @@
+/*
+ * Finding 3-Digit Even Numbers
+ * Pattern : Counting / Enumeration
+ * Approach: Instead of trying every triple of digits (O(n^3)), try every
+ *           even number from 100 to 998 and check whether the available
+ *           digit counts can build it.
+ * Time    : O(n + 450)
+ * Space   : O(1)
+ *
+ * First attempt: three nested loops over the digit indices with a HashSet
+ * to remove duplicates - O(n^3) time.
+ */
 class Solution {
     public int[] findEvenNumbers(int[] digits) {
-        HashSet<Integer> uniqueInt = new HashSet<>();
-        for(int i = 0; i < digits.length; i++){
-            for(int j = 0; j < digits.length; j++){
-                for(int k = 0; k < digits.length; k++){
-                    if( i == j || j == k || k == i)
-                    continue;
-                    int a = digits[i];
-                    int b = digits[j];
-                    int c = digits[k];
-                    if(a == 0)
-                        continue;
+        int[] available = new int[10];
+        for (int d : digits) {
+            available[d]++;
+        }
 
-                    if(c % 2 != 0)
-                        continue;
-                    int num = a * 100 + b * 10 + c;
-                    uniqueInt.add(num);
-                }
+        List<Integer> result = new ArrayList<>();
+        for (int num = 100; num < 1000; num += 2) {
+            if (canBuild(num, available)) {
+                result.add(num);
             }
         }
-        List<Integer> list = new ArrayList<>(uniqueInt);
-        Collections.sort(list);
-        int[] ans = new int[list.size()];
-        for(int i = 0; i < list.size(); i++){
-            ans[i] = list.get(i);
+        return result.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    private boolean canBuild(int num, int[] available) {
+        int[] needed = new int[10];
+        needed[num / 100]++;
+        needed[num / 10 % 10]++;
+        needed[num % 10]++;
+        for (int d = 0; d < 10; d++) {
+            if (needed[d] > available[d]) {
+                return false;
+            }
         }
-        return ans;
+        return true;
     }
 }

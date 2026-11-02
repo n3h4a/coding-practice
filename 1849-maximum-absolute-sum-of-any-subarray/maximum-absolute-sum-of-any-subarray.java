@@ -1,17 +1,25 @@
+/*
+ * Maximum Absolute Sum of Any Subarray
+ * Pattern : Kadane's Algorithm
+ * Approach: Run Kadane twice at once: once for the largest subarray sum and
+ *           once for the smallest (most negative). The answer is the larger
+ *           of the two in absolute value.
+ * Time    : O(n)
+ * Space   : O(1)
+ */
 class Solution {
     public int maxAbsoluteSum(int[] nums) {
-        if( nums.length == 0) return 0;
-        int currmax = nums[0];
-        int currmin = nums[0];
-        int maxsum = nums[0];
-        int minsum = nums[0];
-        for( int i = 1 ; i < nums.length ; i++){
-            currmax = Math.max(nums[i], currmax + nums[i]);
-            currmin = Math.min(nums[i], currmin + nums[i]);
+        int maxEndingHere = nums[0];
+        int minEndingHere = nums[0];
+        int maxSum = nums[0];
+        int minSum = nums[0];
 
-            maxsum = Math.max(maxsum, currmax);
-            minsum = Math.min(minsum, currmin);
+        for (int i = 1; i < nums.length; i++) {
+            maxEndingHere = Math.max(nums[i], maxEndingHere + nums[i]);
+            minEndingHere = Math.min(nums[i], minEndingHere + nums[i]);
+            maxSum = Math.max(maxSum, maxEndingHere);
+            minSum = Math.min(minSum, minEndingHere);
         }
-        return Math.max(Math.abs(maxsum) , Math.abs(minsum));
+        return Math.max(Math.abs(maxSum), Math.abs(minSum));
     }
 }
