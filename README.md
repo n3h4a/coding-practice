@@ -8,9 +8,9 @@
 
 <!-- Add your links here, e.g. · [LeetCode](https://leetcode.com/u/<your-username>/) · [LinkedIn](https://www.linkedin.com/in/<your-profile>/) -->
 
-[![CI](https://img.shields.io/github/actions/workflow/status/n3h4a/coding-practice/ci.yml?branch=main&style=for-the-badge&label=build%20%26%20tests&logo=githubactions&logoColor=white)](https://github.com/n3h4a/coding-practice/actions/workflows/ci.yml)
+[![CI](https://img.shields.io/github/actions/workflow/status/n3h4a/dsa-practise/ci.yml?branch=main&style=for-the-badge&label=build%20%26%20tests&logo=githubactions&logoColor=white)](https://github.com/n3h4a/dsa-practise/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
-![Last commit](https://img.shields.io/github/last-commit/n3h4a/coding-practice?style=for-the-badge&color=blueviolet)
+![Last commit](https://img.shields.io/github/last-commit/n3h4a/dsa-practise?style=for-the-badge&color=blueviolet)
 
 ![Problems](https://img.shields.io/badge/problems-90-blue?style=flat-square)
 ![Easy](https://img.shields.io/badge/Easy-58-brightgreen?style=flat-square)
